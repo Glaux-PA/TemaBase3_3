@@ -1,8 +1,8 @@
 {**
  * templates/frontend/pages/article.tpl
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2020 Simon Fraser University
+ * Copyright (c) 2003-2020 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @brief Display the page to view an article with all of it's details.
@@ -17,20 +17,20 @@
  * @uses $primaryGalleys array List of article galleys that are not supplementary or dependent
  * @uses $supplementaryGalleys array List of article galleys that are supplementary
  *}
-{include file="frontend/components/header.tpl" pageTitleTranslated=$article->getLocalizedFullTitle()|escape}
 
-<div class="page page_article">
-	{if $section}
-		{include file="frontend/components/breadcrumbs_article.tpl" currentTitle=$section->getLocalizedTitle()}
-	{else}
-		{include file="frontend/components/breadcrumbs_article.tpl" currentTitleKey="common.publication"}
-	{/if}
+{include file="frontend/components/header.tpl" pageTitleTranslated=$publication->getLocalizedTitle()|escape}
 
-	{* Show article overview *}
-	{include file="frontend/objects/article_details.tpl"}
+<main class="page page_article">
+	<div class="container-fluid container-page">
 
-	{call_hook name="Templates::Article::Footer::PageFooter"}
+		{* Show article overview *}
+		{include file="frontend/objects/article_details.tpl"}
 
-</div><!-- .page -->
+		<div class="footer-hook-block">
+			{call_hook name="Templates::Article::Footer::PageFooter"}
+		</div>
+	</div>
+
+</main><!-- .page -->
 
 {include file="frontend/components/footer.tpl"}

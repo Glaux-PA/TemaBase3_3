@@ -1,8 +1,8 @@
 {**
  * templates/frontend/components/subscriptionContact.tpl
  *
- * Copyright (c) 2014-2021 Simon Fraser University
- * Copyright (c) 2003-2021 John Willinsky
+ * Copyright (c) 2014-2020 Simon Fraser University
+ * Copyright (c) 2003-2020 John Willinsky
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @brief Display the contact details for a journal's subscriptions
@@ -14,18 +14,17 @@
  * @uses $subscriptionPhone string Contact phone number for subscriptions
  * @uses $subscriptionEmail string Contact email address for subscriptions
  *}
+
  <div class="cmp_subscription_contact">
 	 {if $subscriptionAdditionalInformation}
-		<div class="description">
+		<div class="cmp_subscription-description">
 			{$subscriptionAdditionalInformation|strip_unsafe_html}
 		</div>
 	{/if}
 
 	{if $subscriptionName || $subscriptionPhone || $subscriptionEmail}
 		<div class="contact">
-			<h3>
-				{translate key="about.subscriptionsContact"}
-			</h3>
+			<h3 class="subscriptions-heading"><span>{translate key="about.subscriptionsContact"}</span></h3>
 
 			{if $subscriptionName}
 				<div class="name">
