@@ -21,30 +21,20 @@ class BaseOjsThemePlugin extends ThemePlugin
 		$request = Application::get()->getRequest();
 		$locale = AppLocale::getLocale();
 
-		// Determinar la ruta para los iconos de Bootstrap
-		$iconFontPath = $request->getBaseUrl() . '/' . $this->getPluginPath() . '/bootstrap/fonts/';
-
-		// Cargar Bootstrap 3 CSS
-		$this->addStyle('bootstrap', 'styles/bootstrap.less');
-		$this->modifyStyle('bootstrap', ['addLessVariables' => '@icon-font-path:"' . $iconFontPath . '";']);
 
 		// Soporte para RTL
 		if (AppLocale::getLocaleDirection($locale) === 'rtl') {
 			$this->addStyle('bootstrap-rtl', 'styles/bootstrap-rtl.min.css');
 		}
 
+
+		// Cargar Bootstrap 3 CSS
+		$this->addStyle('bootstrap', 'dependencies/bootstrap/css/bootstrap.min.css');
 		// Cargar estilos personalizados
 		$this->addStyle('styles', 'styles/styles.css');
-
-		// Cargar jQuery y jQuery UI
-		$min = Config::getVar('general', 'enable_minified') ? '.min' : '';
-		$jquery = $request->getBaseUrl() . '/lib/pkp/lib/vendor/components/jquery/jquery' . $min . '.js';
-		$jqueryUI = $request->getBaseUrl() . '/lib/pkp/lib/vendor/components/jqueryui/jquery-ui' . $min . '.js';
-		$this->addScript('jQuery', $jquery, ['baseUrl' => '']);
-		$this->addScript('jQueryUI', $jqueryUI, ['baseUrl' => '']);
-
 		// Cargar Bootstrap 3 JS
-		$this->addScript('bootstrap', 'bootstrap/js/bootstrap.min.js');
+		$this->addScript('bootstrap', 'dependencies/bootstrap/js/bootstrap.min.js');
+
 
 		// Cargar FontAwesome
 		$this->addStyle(
