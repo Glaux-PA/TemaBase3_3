@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * User purchase institutional subscription form
  *
@@ -30,7 +30,7 @@
 					<div class="subscription_type form-group subscription-form-item row">
 						<label for="typeId" class="col-sm-4 col-form-label">
 							{translate key="user.subscriptions.form.typeId"}
-							<span class="visually-hidden">
+							<span class="sr-only">
 								{translate key="common.required"}
 							</span>
 						</label>

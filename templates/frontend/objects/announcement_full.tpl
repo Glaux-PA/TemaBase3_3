@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Display the full view of an announcement, when the announcement is
  *  the primary element on the page.
@@ -13,18 +13,18 @@
 
 <article class="obj_announcement_full">
 	<h1 class="announcement-full-title">
-		{$announcement->getLocalizedData('title')|escape}
+		{$announcement->getLocalizedTitle()|escape}
 	</h1>
 	<div class="announcement-full-wrapper">
 		<div class="announcement-full-date">
 			<i class="far fa-calendar-alt"></i>
-			{$announcement->datePosted|date_format:$dateFormatShort}
+			{$announcement->getDatePosted()|date_format:$dateFormatShort}
 		</div>
 		<div class="announcement-full-description">
-			{if $announcement->getLocalizedData('description')}
-				{$announcement->getLocalizedData('description')|strip_unsafe_html}
+			{if $announcement->getLocalizedDescription()}
+				{$announcement->getLocalizedDescription()|strip_unsafe_html}
 			{else}
-				{$announcement->getLocalizedData('descriptionShort')|strip_unsafe_html}
+				{$announcement->getLocalizedDescriptionShort()|strip_unsafe_html}
 			{/if}
 		</div>
 	</div>

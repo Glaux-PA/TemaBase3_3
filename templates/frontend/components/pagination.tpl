@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Common template for displaying pagination
  *
@@ -16,7 +16,7 @@
 
 {if $prevUrl || $nextUrl}
 	<nav class="pagination_navigation" aria-label="{translate|escape key="common.pagination.label"}">
-		<h2 class="visually-hidden">{translate key="issue.pagination"}</h2>
+		<h2 class="sr-only">{translate key="issue.pagination"}</h2>
 		<ul class="pagination justify-content-center">
 			<li class="page-item{if !$prevUrl} disabled{/if}">
 				<a class="page-link" href="{$prevUrl}">

@@ -3,17 +3,16 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief View of an Article which displays all details about the article.
  *
- * @uses $article Submission This article
+ * @uses $article Article This article
  * @uses $publication Publication The publication being displayed
  * @uses $firstPublication Publication The first published version of this article
  * @uses $currentPublication Publication The most recently published version of this article
  * @uses $issue Issue The issue this article is assigned to
  * @uses $section Section The journal section this article is assigned to
- * @uses $categories Category The category this article is assigned to
  * @uses $primaryGalleys array List of article galleys that are not supplementary or dependent
  * @uses $supplementaryGalleys array List of article galleys that are supplementary
  * @uses $keywords array List of keywords assigned to this article
@@ -38,22 +37,21 @@
 		</div>
 		{/if}
 
-		{if $issue}
-			<div class="article_issue_credentials">
-				<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}">{$issue->getIssueIdentification()|escape}</a>
-			</div>
-		{/if}
-
+		<div class="article_issue_credentials">
+			<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}">{$issue->getIssueIdentification()|escape}</a>
+		</div>
 		<div class="article_section_title">
 			{$section->getLocalizedTitle()}
 		</div>
 		<div class="row">
 			<div class="col-md-8">
 
-				{* article title and subtitle *}
+				{* article title, subtitle and authors *}
 				<h1 class="page_title article-full-title">
-					{$publication->getLocalizedFullTitle(null, 'html')|strip_unsafe_html}
+					{$publication->getLocalizedFullTitle()|escape}
 				</h1>
+
+
 			</div>
 
 			<div class="col-md-4">
@@ -83,27 +81,29 @@
 					<div class="authors_info">
 						<ul class="entry_authors_list">
 							{strip}
-								{assign var="authors" value=$publication->getData('authors')->toArray()|array_values}
-								{foreach from=$authors item=author key=authorNumber}
+								{foreach from=$publication->getData('authors') item=author key=authorNumber}
 									<li class="entry_author_block{if $authorNumber > 4} limit-for-mobiles{elseif $authorNumber === 4} fifth-author{/if}">
-									<span class="name_wrapper">
-										{$author->getFullName()|escape}
-									</span>
-                                    {if $author->getData('orcid')}
-										<a class="orcid-image-url" href="{$author->getData('orcid')|escape}">
-											{if $author->hasVerifiedOrcid()}
-												{$orcidIcon}
-											{else}
-												{$orcidUnauthenticatedIcon}
-											{/if}
-										</a>
-                                    {/if}
-									{if $authorNumber+1 !== $publication->getData('authors')|count}
-										<span class="author-delimiter">{translate key="common.commaListSeparator"}</span>
-									{/if}
+										{if $author->getData('rorId')}
+											<a class="ror-image-url" href="{$author->getData('rorId')|escape}">{$rorIdIcon}</a>
+										{/if}
+										{if $author->getOrcid()}
+											<a class="orcid-image-url" href="{$author->getOrcid()}">
+												{if $orcidIcon}
+													{$orcidIcon}
+												{else}
+													<img src="{$baseUrl}/{$orcidImageUrl}">
+												{/if}
+											</a>
+										{/if}
+										<span class="name_wrapper">
+											{$author->getFullName()|escape}
+										</span>
+										{if $authorNumber+1 !== $publication->getData('authors')|@count}
+											<span class="author-delimiter">, </span>
+										{/if}
 									</li>
 								{/foreach}
-								{if $publication->getData('authors')|count > 5}
+								{if $publication->getData('authors')|@count > 4}
 									<span class="collapse-authors" id="show-all-authors"><ion-icon name="add-circle"></ion-icon></span>
 									<span class="collapse-authors hide" id="hide-authors"><ion-icon name="remove-circle"></ion-icon></ion-icon></span>
 								{/if}
@@ -112,67 +112,48 @@
 					</div>
 					<div class="additional-authors-info">
 						{if $boolAuthorInfo}
-							<a class="more-authors-info-button" id="collapseButton" data-bs-toggle="collapse" href="#authorInfoCollapse" role="button" aria-expanded="false" aria-controls="authorInfoCollapse">
+							<a class="more-authors-info-button" id="collapseButton" data-toggle="collapse" href="#authorInfoCollapse" role="button" aria-expanded="false" aria-controls="authorInfoCollapse">
 								<ion-icon name="add" class="ion_icon" id="more-authors-data-symbol"></ion-icon>
 								<ion-icon name="remove" class="ion_icon hide" id="less-authors-data-symbol"></ion-icon>
 								<span class="ion-icon-text">{translate key="plugins.themes.classic.more-info"}</span>
 							</a>
 						{/if}
 						<div class="collapse" id="authorInfoCollapse">
-							{foreach from=$authors item=author key=number}
-								{if count($author->getAffiliations()) > 0 || $author->getLocalizedBiography()}
-									<div class="additional-author-block">
+							{foreach from=$publication->getData('authors') item=author key=number}
+								<div class="additional-author-block">
+									{if $author->getLocalizedAffiliation() || $author->getLocalizedBiography()}
 										<span class="additional-author-name">{$author->getFullName()|escape}</span>
-										{if $author->getData('orcid')}
-											<br/>
-											<a class="orcid-image-url" href="{$author->getData('orcid')|escape}">
-												{if $author->hasVerifiedOrcid()}
-													{$orcidIcon}
-												{else}
-													{$orcidUnauthenticatedIcon}
-												{/if}
-											</a>
-											<a href="{$author->getData('orcid')|escape}" target="_blank">
-												{$author->getOrcidDisplayValue()|escape}
-											</a>
-										{/if}
-										{if count($author->getAffiliations()) > 0}
-											{foreach name="affiliations" from=$author->getAffiliations() item="affiliation"}
-												<span class="additional-author-affiliation">{$affiliation->getLocalizedName()|escape}</span>
-												{if $affiliation->getRor()}
-													<a class="ror-image-url" href="{$affiliation->getRor()|escape}">{$rorIdIcon}</a>
-												{/if}
-												{if !$smarty.foreach.affiliations.last}{translate key="common.commaListSeparator"}{/if}
-											{/foreach}
-											<br/>
-										{/if}
-										{if $author->getLocalizedBiography()}
-											<br/>
-											<a class="more_button" data-toggle="modal" data-target="#modalAuthorBio-{$number}">
-												{translate key="plugins.themes.classic.biography"}
-											</a>
-											{* author's biography *}
-											<div class="modal fade" id="modalAuthorBio-{$number}" tabindex="-1" role="dialog" aria-labelledby="modalAuthorBioTitle" aria-hidden="true">
-												<div class="modal-dialog" role="document">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h5 class="modal-title" id="modalAuthorBioTitle">{translate key="submission.authorBiography"}</h5>
-															<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																<span aria-hidden="true">&times;</span>
-															</button>
-														</div>
-														<div class="modal-body">
-															{$author->getLocalizedBiography()|strip_unsafe_html}
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-primary" data-dismiss="modal">{translate key="plugins.themes.classic.close"}</button>
-														</div>
+									{/if}
+									{if $author->getLocalizedAffiliation()}
+										<br/>
+										<span class="additional-author-affiliation">{$author->getLocalizedAffiliation()|escape}</span>
+									{/if}
+									{if $author->getLocalizedBiography()}
+										<br/>
+										<a class="more_button" data-toggle="modal" data-target="#modalAuthorBio-{$number}">
+											{translate key="plugins.themes.classic.biography"}
+										</a>
+										{* author's biography *}
+										<div class="modal fade" id="modalAuthorBio-{$number}" tabindex="-1" role="dialog" aria-labelledby="modalAuthorBioTitle" aria-hidden="true">
+											<div class="modal-dialog" role="document">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h5 class="modal-title" id="modalAuthorBioTitle">{translate key="submission.authorBiography"}</h5>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														{$author->getLocalizedBiography()|strip_unsafe_html}
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-primary" data-dismiss="modal">{translate key="plugins.themes.classic.close"}</button>
 													</div>
 												</div>
 											</div>
-										{/if}
-									</div>
-								{/if}
+										</div>
+									{/if}
+								</div>
 							{/foreach}
 						</div>
 					</div>
@@ -283,7 +264,7 @@
 				<ul class="keywords_value">
 					{foreach from=$keywords key=k item=keyword}
 						<li class="keyword_item{if $k>4} more-than-five{/if}">
-							<span>{$keyword|escape}</span>{if $k+1 < $keywords|@count}<span class="keyword-delimeter{if $k === 4} fifth-keyword-delimeter hide{/if}">{translate key="common.commaListSeparator"}</span>{/if}
+							<span>{$keyword|escape}</span>{if $k+1 < $keywords|@count}<span class="keyword-delimeter{if $k === 4} fifth-keyword-delimeter hide{/if}">,</span>{/if}
 						</li>
 					{/foreach}
 					{if $keywords|@count > 5}<span class="ellipsis" id="keywords-ellipsis">...</span>
@@ -298,6 +279,55 @@
 				</ul>
 				{/strip}
 			</div>
+			{/if}
+
+
+			{* How to cite *}
+			{if $citation}
+				<div class="item citation">
+					<div class="sub_item citation_display">
+						<h3>
+							{translate key="submission.howToCite"}
+						</h3>
+						<div class="citation_format_value">
+							<div id="citationOutput" role="region" aria-live="polite">
+								{$citation}
+							</div>
+							<div class="citation_formats dropdown">
+								<button class="btn btn-primary" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+								        aria-expanded="false">
+									{translate key="submission.howToCite.citationFormats"}
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdown-cit">
+									{foreach from=$citationStyles item="citationStyle"}
+										<a
+												class="dropdown-cite-link dropdown-item"
+												aria-controls="citationOutput"
+												href="{url page="citationstylelanguage" op="get" path=$citationStyle.id params=$citationArgs}"
+												data-load-citation
+												data-json-href="{url page="citationstylelanguage" op="get" path=$citationStyle.id params=$citationArgsJson}"
+										>
+											{$citationStyle.title|escape}
+										</a>
+									{/foreach}
+									{if count($citationDownloads)}
+										<div class="dropdown-divider"></div>
+										<h4 class="download-cite">
+											{translate key="submission.howToCite.downloadCitation"}
+										</h4>
+										{foreach from=$citationDownloads item="citationDownload"}
+											<a class="dropdown-item"
+											   href="{url page="citationstylelanguage" op="download" path=$citationDownload.id params=$citationArgs}">
+												<span class="fa fa-download"></span>
+												{$citationDownload.title|escape}
+											</a>
+										{/foreach}
+									{/if}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			{/if}
 
 			{* Licensing info *}
@@ -385,22 +415,6 @@
 			</div>
 
 			{call_hook name="Templates::Article::Main"}
-
-			{* Usage statistics chart*}
-			{if $activeTheme->getOption('displayStats') != 'none'}
-				{$activeTheme->displayUsageStatsGraph($article->getId())}
-				<section class="item downloads_chart">
-					<h2 class="label">
-						{translate key="plugins.themes.classic.displayStats.downloads"}
-					</h2>
-					<div class="value">
-						<canvas class="usageStatsGraph" data-object-type="Submission" data-object-id="{$article->getId()|escape}"></canvas>
-						<div class="usageStatsUnavailable" data-object-type="Submission" data-object-id="{$article->getId()|escape}">
-							{translate key="plugins.themes.classic.displayStats.noStats"}
-						</div>
-					</div>
-				</section>
-			{/if}
 
 			{* References *}
 			{if $parsedCitations || $publication->getData('citationsRaw')}

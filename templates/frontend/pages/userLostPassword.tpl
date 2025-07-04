@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Password reset form.
  *
@@ -34,20 +34,11 @@
 
 				<div class="row">
 					<div class="form-group col-md-6 offset-md-3">
-						<label for="email" class="visually-hidden">{translate key="user.login.registeredEmail"}</label>
+						<label for="email" class="sr-only">{translate key="user.login.registeredEmail"}</label>
 						<input type="email" class="form-control" name="email" id="email" value="{$email|escape}" placeholder="{translate key="user.login.registeredEmail"}" required>
 						<small class="form-text text-muted"><span class="required">*</span>{translate key="common.required"}</small>
 					</div>
 				</div>
-
-				{* altcha spam blocker *}
-				{if $altchaEnabled}
-					<fieldset class="altcha_wrapper">
-						<div class="fields">
-							<altcha-widget challengejson='{$altchaChallenge|@json_encode}' floating></altcha-widget>
-						</div>
-					</fieldset>
-				{/if}
 
 				<div class="row buttons">
 					<div class="col-md-6 offset-md-3">

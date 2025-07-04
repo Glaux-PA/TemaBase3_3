@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Display role selection for all of the journals/presses on this site
  *
@@ -42,11 +42,11 @@
 								</legend>
 								<span class="custom-control custom-checkbox context-checkbox">
 									{foreach from=$readerUserGroups[$contextId] item=userGroup}
-										{if $userGroup->permitSelfRegistration}
-											{assign var="userGroupId" value=$userGroup->id}
+										{if $userGroup->getPermitSelfRegistration()}
+											{assign var="userGroupId" value=$userGroup->getId()}
 											<input type="checkbox" class="custom-control-input" id="readerGroup[{$userGroupId}]" name="readerGroup[{$userGroupId}]"{if in_array($userGroupId, $userGroupIds)} checked="checked"{/if}>
 											<label for="readerGroup[{$userGroupId}]" class="custom-control-label">
-												{$userGroup->getLocalizedData('name')|escape}
+												{$userGroup->getLocalizedName()}
 											</label>
 											{if in_array($userGroupId, $userGroupIds)}
 												{assign var=isSelected value=true}
@@ -56,11 +56,11 @@
 								</span>
 								<span class="custom-control custom-checkbox context-checkbox">
 									{foreach from=$reviewerUserGroups[$contextId] item=userGroup}
-										{if $userGroup->permitSelfRegistration}
-											{assign var="userGroupId" value=$userGroup->id}
+										{if $userGroup->getPermitSelfRegistration()}
+											{assign var="userGroupId" value=$userGroup->getId()}
 											<input type="checkbox" class="custom-control-input" id="reviewerGroup[{$userGroupId}]" name="reviewerGroup[{$userGroupId}]"{if in_array($userGroupId, $userGroupIds)} checked="checked"{/if}>
 											<label for="reviewerGroup[{$userGroupId}]" class="custom-control-label">
-												{$userGroup->getLocalizedData('name')|escape}
+												{$userGroup->getLocalizedName()}
 											</label>
 											{if in_array($userGroupId, $userGroupIds)}
 												{assign var=isSelected value=true}

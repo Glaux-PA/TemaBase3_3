@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Template for primary and user menus
  *
@@ -19,9 +19,9 @@
 				{assign var=navItemType value=$navigationMenuItemAssignment->navigationMenuItem->getType()|escape}
 				<li class="{$liClass|escape} nav-item dropdown">
 					<a{if $navItemType === "NMI_TYPE_USER_DASHBOARD"} id="user-dashboard-link"{/if}
-							class="nav-link dropdown-toggle{if !($languageToggleLocales && $languageToggleLocales|@count > 1)} locales-toggle-off{/if}"
+							class="nav-link dropdown-toggle{if !($languageToggleLocales && $languageToggleLocales|@count > 1)} locales-toogle-off{/if}"
 							href="{$navigationMenuItemAssignment->navigationMenuItem->getUrl()}" role="button"
-							data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						{$navigationMenuItemAssignment->navigationMenuItem->getLocalizedTitle()}
 					</a>
 					<div class="navigation-dropdown dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

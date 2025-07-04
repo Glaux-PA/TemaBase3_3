@@ -1,9 +1,9 @@
 {**
  * templates/frontend/pages/userLogin.tpl
  *
- * Copyright (c) 2014-2024 Simon Fraser University
- * Copyright (c) 2003-2024 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2020 Simon Fraser University
+ * Copyright (c) 2003-2020 John Willinsky
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * User login form.
  *
@@ -41,7 +41,7 @@
 			<fieldset class="fields">
 				<div class="row">
 					<div class="form-group col-md-6 offset-md-3">
-						<label for="username" class="visually-hidden">
+						<label for="username" class="sr-only">
 							{translate key="user.username"}
 						</label>
 						<input type="text" class="form-control" name="username" id="username" value="{$username|default:""|escape}" maxlength="32" placeholder="{translate key="user.username"}" required>
@@ -49,7 +49,7 @@
 					</div>
 
 					<div class="form-group col-md-6 offset-md-3">
-						<label for="password" class="visually-hidden">
+						<label for="password" class="sr-only">
 							{translate key="user.password"}
 						</label>
 						<input type="password" class="form-control" name="password" id="password" value="{$password|default:""|escape}" password="true" maxlength="32" placeholder="{translate key="user.password"}" required>
@@ -67,29 +67,6 @@
 						<input type="checkbox" class="custom-control-input" name="remember" id="remember" value="1" checked>
 						<label class="custom-control-label" for="remember">{translate key="user.login.rememberUsernameAndPassword"}</label>
 					</div>
-
-					{* recaptcha spam blocker *}
-					{if $recaptchaPublicKey}
-						<div class="col-md-6 offset-md-3">
-							<fieldset class="recaptcha_wrapper">
-								<div class="fields">
-									<div class="recaptcha">
-										<div class="g-recaptcha" data-sitekey="{$recaptchaPublicKey|escape}">
-										</div><label for="g-recaptcha-response" style="display:none;" hidden>Recaptcha response</label>
-									</div>
-								</div>
-							</fieldset>
-						</div>
-					{/if}
-
-					{* altcha spam blocker *}
-					{if $altchaEnabled}
-						<fieldset class="altcha_wrapper">
-							<div class="fields">
-								<altcha-widget challengejson='{$altchaChallenge|@json_encode}' floating></altcha-widget>
-							</div>
-						</fieldset>
-					{/if}
 
 					<div class="col-md-6 offset-md-3 buttons">
 						<button class="submit btn btn-primary" type="submit">

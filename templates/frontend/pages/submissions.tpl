@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Display the page to view the editorial team.
  *
@@ -33,24 +33,32 @@
 			</div>
 		{/if}
 
-		{if $currentContext->getLocalizedData('authorGuidelines')}
-		<div class="author_guidelines submission-item-block" id="authorGuidelines">
-			<h2>
-				{translate key="about.authorGuidelines"}
-				{include file="frontend/components/editLink.tpl" page="management" op="settings" path="workflow" anchor="submission/instructions" sectionTitleKey="about.authorGuidelines"}
-			</h2>
-			{$currentContext->getLocalizedData('authorGuidelines')}
-		</div>
-		{/if}
-
 		{if $submissionChecklist}
 			<div class="submission_checklist submission-item-block">
 				<h2>
 					{translate key="about.submissionPreparationChecklist"}
-					{include file="frontend/components/editLink.tpl" page="management" op="settings" path="workflow" anchor="submission/instructions" sectionTitleKey="about.submissionPreparationChecklist"}
+					{include file="frontend/components/editLink.tpl" page="management" op="settings" path="workflow" anchor="submission/submissionChecklist" sectionTitleKey="about.submissionPreparationChecklist"}
 				</h2>
-				{$submissionChecklist}
+				<p>{translate key="about.submissionPreparationChecklist.description"}</p>
+				<ul class="submission-checklist-list">
+					{foreach from=$submissionChecklist item=checklistItem}
+						<li class="submission-checklist-item">
+							<i class="far fa-check-square fa-lg"></i>
+							{$checklistItem.content|nl2br}
+						</li>
+					{/foreach}
+				</ul>
 			</div>
+		{/if}
+
+		{if $currentContext->getLocalizedData('authorGuidelines')}
+		<div class="author_guidelines submission-item-block" id="authorGuidelines">
+			<h2>
+				{translate key="about.authorGuidelines"}
+				{include file="frontend/components/editLink.tpl" page="management" op="settings" path="workflow" anchor="submission/authorGuidelines" sectionTitleKey="about.authorGuidelines"}
+			</h2>
+			{$currentContext->getLocalizedData('authorGuidelines')}
+		</div>
 		{/if}
 
 		{foreach from=$sections item="section"}

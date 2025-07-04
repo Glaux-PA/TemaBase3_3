@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief View of an Issue which displays a full table of contents.
  *
@@ -67,7 +67,7 @@
 {* Full-issue galleys *}
 {if $issueGalleys}
 	<section class="galleys">
-		<h4 class="visually-hidden">
+		<h4 class="sr-only">
 			{translate key="issue.tableOfContents"}
 		</h4>
 		<ul class="galleys_links">
@@ -82,7 +82,7 @@
 
 {* Articles *}
 <section class="sections">
-	<h3 class="visually-hidden">
+	<h3 class="sr-only">
 		{translate key="issue.toc"}
 	</h3>
 	{foreach name=sections from=$publishedSubmissions item=section}

@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Display the basic registration form fields
  *
@@ -25,14 +25,14 @@
 
 		<div class="form-row">
 			<div class="form-group col-sm-12">
-				<label for="givenName" class="visually-hidden">
+				<label for="givenName" class="sr-only">
 					{translate key="user.givenName"}
 				</label>
 				<input type="text"  class="form-control" name="givenName" autocomplete="given-name" id="givenName" value="{$givenName|default:""|escape}" maxlength="255" placeholder="{translate key="user.givenName"}" required>
 				<small class="form-text text-muted"><span class="required">*</span>{translate key="common.required"}</small>
 			</div>
 			<div class="form-group middle-name col-sm-12">
-				<label for="familyName" class="visually-hidden">
+				<label for="familyName" class="sr-only">
 					{translate key="user.middleName"}
 				</label>
 				<input type="text" class="form-control" name="familyName" autocomplete="family-name" id="familyName" value="{$familyName|default:""|escape}" maxlength="255" placeholder="{translate key="user.familyName"}">
@@ -41,14 +41,14 @@
 
 		<div class="form-row">
 			<div class="form-group col-sm-8">
-				<label for="affiliation" class="visually-hidden">
+				<label for="affiliation" class="sr-only">
 					{translate key="user.affiliation"}
 				</label>
 				<input type="text" class="form-control" name="affiliation" id="affiliation" value="{$affiliation|default:""|escape}" placeholder="{translate key="user.affiliation"}" required>
 				<small class="form-text text-muted"><span class="required">*</span>{translate key="common.required"}</small>
 			</div>
 			<div class="form-group col-sm-4">
-				<label for="country" class="visually-hidden">
+				<label for="country" class="sr-only">
 					{translate key="common.country"}
 				</label>
 				<select class="form-control" name="country" id="country" required>
@@ -69,14 +69,14 @@
 	<div class="fields">
 		<div class="form-row">
 			<div class="form-group col-sm-12">
-				<label for="email" class="visually-hidden">
+				<label for="email" class="sr-only">
 					{translate key="user.email"}
 				</label>
 				<input type="email" class="form-control" name="email" id="email" value="{$email|default:""|escape}" maxlength="90" placeholder="{translate key="user.email"}" autocomplete="email" required>
 				<small class="form-text text-muted"><span class="required">*</span>{translate key="common.required"}</small>
 			</div>
 			<div class="form-group col-sm-12">
-				<label for="username" class="visually-hidden">
+				<label for="username" class="sr-only">
 					{translate key="user.username"}
 				</label>
 				<input type="text" class="form-control" name="username" id="username" value="{$username|default:""|escape}" maxlength="32" placeholder="{translate key="user.username"}" autocomplete="username" required>
@@ -85,14 +85,14 @@
 		</div>
 		<div class="form-row">
 			<div class="form-group col-sm-6">
-				<label for="password" class="visually-hidden">
+				<label for="password" class="sr-only">
 					{translate key="user.password"}
 				</label>
 				<input type="password" class="form-control" name="password" id="password" password="true" maxlength="32" placeholder="{translate key="user.password"}" required>
 				<small class="form-text text-muted"><span class="required">*</span>{translate key="common.required"}</small>
 			</div>
 			<div class="form-group col-sm-6">
-				<label for="password2" class="visually-hidden">
+				<label for="password2" class="sr-only">
 					{translate key="user.repeatPassword"}
 				</label>
 				<input type="password" class="form-control" name="password2" id="password2" password="true" maxlength="32" placeholder="{translate key="user.repeatPassword"}" required>

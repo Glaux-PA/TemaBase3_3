@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
  *
  * @brief Display the page to search and view search results.
  *
@@ -66,7 +66,6 @@
 					<div class="filter-authors">
 						<input type="text" class="form-control" for="authors" name="authors" value="{$authors|escape}" placeholder="{translate key="search.author"}">
 					</div>
-					{call_hook name="Templates::Search::SearchResults::AdditionalFilters"}
 				</fieldset>
 
 
