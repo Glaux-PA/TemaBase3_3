@@ -35,12 +35,22 @@ class BaseOjsThemePlugin extends ThemePlugin
 		// Cargar Bootstrap 3 JS
 		$this->addScript('bootstrap', 'dependencies/bootstrap/js/bootstrap.min.js');
 
-
 		// Cargar FontAwesome
 		$this->addStyle(
 			'fontAwesome',
 			$request->getBaseUrl() . '/lib/pkp/styles/fontawesome/fontawesome.css',
 			['baseUrl' => '']
+		);
+
+
+		$this->addScript(
+			'scripts',
+			'js/script.js'
+		);
+
+		$this->addScript(
+			'scripts_html',
+			'js/html_view.js'
 		);
 
 		// Añadir áreas de menú
